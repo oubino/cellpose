@@ -840,7 +840,7 @@ class UnetModel():
                 #diam_test = np.array([utils.diameters(test_labels[k][0])[0] for k in range(len(test_labels))])
                 diam_test = np.full(len(test_labels), 100.0)
                 diam_test[diam_test<5] = 5.
-            scale_range = 0.1
+            scale_range = 0.5
             core_logger.info('>>>> median diameter set to = %d'%self.diam_mean)
         else:
             scale_range = 1.0
@@ -900,7 +900,6 @@ class UnetModel():
             for ibatch in range(0,nimg_per_epoch,batch_size):
                 inds = rperm[ibatch:ibatch+batch_size]
                 rsc = diam_train[inds] / self.diam_mean if rescale else np.ones(len(inds), np.float32)
-                input(f'rsc train {rsc}')
                 # now passing in the full train array, need the labels for distance field
                 # any scaling affects performance too much therefore set rsc to None
                 imgi, lbl, scale = transforms.random_rotate_and_resize(
@@ -925,7 +924,6 @@ class UnetModel():
                     for ibatch in range(0,len(test_data),batch_size):
                         inds = rperm[ibatch:ibatch+batch_size]
                         rsc = diam_test[inds] / self.diam_mean if rescale else np.ones(len(inds), np.float32)
-                        input(f'rsc test {rsc}')
                         # changed below in same way as for train above
                         imgi, lbl, scale = transforms.random_rotate_and_resize(
                                         [test_data[i] for i in inds], Y=[test_labels[i][0:3] for i in inds],
