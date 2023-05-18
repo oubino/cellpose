@@ -547,6 +547,9 @@ class CellposeModel(UnetModel):
                 x = x[np.newaxis,...]
             self.batch_size = batch_size
 
+            # manually set diameter of cells to 100 pixels
+            diameter = 100
+
             if diameter is not None and diameter > 0:
                 rescale = self.diam_mean / diameter
             elif rescale is None:

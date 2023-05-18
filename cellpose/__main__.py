@@ -340,14 +340,14 @@ def main(*args):
             # but we don't want to as we are finetuning to our dataset
             # and i believe it threw the training off using our mean values
             # TODO try putting this back in see if makes a difference
-            sd = model.net.state_dict()
-            for (k1, v1) in sd.items():
-                vars = ["running_mean", "running_var", "num_batches_tracked"]
-                #print(type(k1))
-                for var in vars:
-                    if k1.endswith(var):
-                        module = k1.rstrip("." + var)
-                        model.net.get_submodule(module).track_running_stats = False
+            #sd = model.net.state_dict()
+            #for (k1, v1) in sd.items():
+            #    vars = ["running_mean", "running_var", "num_batches_tracked"]
+            #    #print(type(k1))
+            #    for var in vars:
+            #        if k1.endswith(var):
+            #            module = k1.rstrip("." + var)
+            #            model.net.get_submodule(module).track_running_stats = False
 
             
             # train segmentation model
